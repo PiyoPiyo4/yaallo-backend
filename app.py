@@ -30,7 +30,7 @@ app = Flask(__name__)
 # cors = CORS(app, resources={"/": {"origins": [ALLOWED_ORIGIN]}})
 
 @app.route('/')
-def conn():
+def connect():
     print('HELLOW!')
     return 'WORKING PROPERLY'
 #### LOGIN AND SIGN UP ####
