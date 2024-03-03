@@ -11,7 +11,7 @@ from token_config import *
 from reset_password import *
 
 # Replace with your actual MongoDB connection details
-MONGO_URI = "mongodb+srv://dev:1R0ob8q34KE79x2D@db-mongodb-sgp1-01728-db62c0ac.mongo.ondigitalocean.com/"
+MONGO_URI = "mongodb+srv://dev:z2Ad7McO4S6910C8@db-mongodb-sgp1-01728-db62c0ac.mongo.ondigitalocean.com/"
 
 
 # def defaultHandler(err):
@@ -224,7 +224,6 @@ def get_posts() :
     req = request.get_json()
     page_size = req["pageSize"]  # Default page size
     page_number = req["pageNumber"] # Default page number
-    print(page_number)
         # Skip documents based on page number and page size
     skip = (page_number - 1) * page_size
 
@@ -233,6 +232,7 @@ def get_posts() :
 
         # Convert cursor objects to a list of dictionaries
     # posts = [post for post in cursor]
+    print(client.server_info())
     posts = []
     for post in cursor:
         brid = post["brid"]
