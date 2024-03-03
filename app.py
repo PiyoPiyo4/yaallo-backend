@@ -25,9 +25,9 @@ MONGO_URI = "mongodb+srv://dev:1R0ob8q34KE79x2D@db-mongodb-sgp1-01728-db62c0ac.m
 #     })
 #     response.content_type = 'application/json'
 #     return response
-ALLOWED_ORIGIN = "https://deluxe-liger-3e64ee.netlify.app/" 
+# ALLOWED_ORIGIN = "https://deluxe-liger-3e64ee.netlify.app/" 
 app = Flask(__name__)
-cors = CORS(app, resources={"/": {"origins": [ALLOWED_ORIGIN]}})
+# cors = CORS(app, resources={"/": {"origins": [ALLOWED_ORIGIN]}})
 
 @app.route('/')
 def conn():
