@@ -29,10 +29,10 @@ ALLOWED_ORIGIN = "https://deluxe-liger-3e64ee.netlify.app/"
 app = Flask(__name__)
 cors = CORS(app, resources={"/": {"origins": [ALLOWED_ORIGIN]}})
 
-@app.route('/')
-def conn():
-    print('HELLOW!')
-    return ' HELLOW'
+# @app.route('/')
+# def conn():
+#     print('HELLOW!')
+#     return ' HELLOW'
 #### LOGIN AND SIGN UP ####
 
 @app.route('/login', methods=['POST'])
