@@ -11,7 +11,7 @@ from token_config import *
 from reset_password import *
 
 # Replace with your actual MongoDB connection details
-MONGO_URI = "mongodb+srv://dev:z2Ad7McO4S6910C8@db-mongodb-sgp1-01728-db62c0ac.mongo.ondigitalocean.com/"
+MONGO_URI = "mongodb+srv://dev:z2Ad7McO4S6910C8@db-mongodb-sgp1-01728-db62c0ac.mongo.ondigitalocean.com:27017/"
 
 
 # def defaultHandler(err):
