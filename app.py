@@ -9,10 +9,10 @@ import datetime
 
 from token_config import *
 from reset_password import *
-# import bson
 
 # Replace with your actual MongoDB connection details
-MONGO_URI = "mongodb+srv://dev:otUvobpvZlBBlNKm@cluster0.xumgfs7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# MONGO_URI = "mongodb+srv://dev:otUvobpvZlBBlNKm@cluster0.xumgfs7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = os.environ.get('MONGODB_URI')
 
 
 # def defaultHandler(err):
