@@ -9,9 +9,10 @@ import datetime
 
 from token_config import *
 from reset_password import *
+import bson
 
 # Replace with your actual MongoDB connection details
-MONGO_URI = "mongodb+srv://dev:1R0ob8q34KE79x2D@db-mongodb-sgp1-01728-db62c0ac.mongo.ondigitalocean.com/"
+MONGO_URI = "mongodb+srv://dev:otUvobpvZlBBlNKm@cluster0.xumgfs7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 # def defaultHandler(err):
@@ -25,7 +26,7 @@ MONGO_URI = "mongodb+srv://dev:1R0ob8q34KE79x2D@db-mongodb-sgp1-01728-db62c0ac.m
 #     })
 #     response.content_type = 'application/json'
 #     return response
-ALLOWED_ORIGIN = "https://deluxe-liger-3e64ee.netlify.app/" 
+# ALLOWED_ORIGIN = "https://deluxe-liger-3e64ee.netlify.app/" 
 app = Flask(__name__)
 # cors = CORS(app, resources={"/": {"origins": [ALLOWED_ORIGIN]}})
 
@@ -214,11 +215,10 @@ def reset_password():
 @app.route("/posts", methods=["POST"])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def get_posts() :
-
+    # return '23'
     client = MongoClient(MONGO_URI)
-    db = client["mydb"]
+    db = client["yaallO"]
     collection_posts = db["posts"]
-    collection_channel = db['channel']
 
     # data = collection.find()
     req = request.get_json()
@@ -229,27 +229,38 @@ def get_posts() :
     skip = (page_number - 1) * page_size
 
     # Retrieve documents with pagination
-    cursor = collection_posts.find({}, {"_id": 0}, skip=skip, limit=page_size).sort("_id", -1)
+    cursor = collection_posts.find({}, {"_id": 0}, skip=skip, limit=page_size).sort("when", -1)
 
         # Convert cursor objects to a list of dictionaries
-    # posts = [post for post in cursor]
-    posts = []
-    for post in cursor:
-        brid = post["brid"]
-        # Find brand document in the other database
-        brand_doc = collection_channel.find_one({"channel": brid} , {"_id": 0}) 
-        # brand_id = brand_doc["_id"] if brand_doc else None
+    posts = [post for post in cursor]
+    # posts = []
+    # for post in cursor:
+    #     brid = post["brid"]
+    #     # Find brand document in the other database
+    #     brand_doc = collection_channel.find_one({"channel": brid} , {"_id": 0}) 
+    #     # brand_id = brand_doc["_id"] if brand_doc else None
 
-        post["brname"] = brand_doc['brname'] if brand_doc else "" 
-        post['pp'] = brand_doc['pp'] if brand_doc else "" 
-        post['fname'] = brand_doc['fname'] if brand_doc else "" 
-        posts.append(post)
+    #     post["brname"] = brand_doc['brname'] if brand_doc else "" 
+    #     post['pp'] = brand_doc['pp'] if brand_doc else "" 
+    #     post['fname'] = brand_doc['fname'] if brand_doc else "" 
+    #     posts.append(post)
 
         # Return serialized data (e.g., JSON)
     
     # return posts  # Return status code 200 (OK)
     return jsonify(posts)
 
+
+@app.route("/add", methods=["POST"])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+def add_data():
+    client = MongoClient(MONGO_URI)
+    db = client["yaallO"]
+    collection = db["posts"]
+    
+    collection.update_many({}, {"$set": {"likes": random.randint(0, 25)}})
+    
+    return jsonify("SUCCESS")
 
     # return data
 if __name__ == '__main__':
