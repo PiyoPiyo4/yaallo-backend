@@ -40,7 +40,7 @@ def conn():
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
     client = MongoClient(MONGO_URI)
-    db = client["yaallo"]
+    db = client["yaallO"]
     collection = db["users"]
     req = request.get_json()
     try:
@@ -74,7 +74,7 @@ def login():
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def brandregister() :
     client = MongoClient(MONGO_URI)
-    db = client["yaallo"]
+    db = client["yaallO"]
     collection = db["users"]
     req = request.get_json()
     try:
@@ -106,7 +106,7 @@ def brandregister() :
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def userregister() :
     client = MongoClient(MONGO_URI)
-    db = client["yaallo"]
+    db = client["yaallO"]
     collection = db["users"]
     req = request.get_json()
     try:
@@ -141,7 +141,7 @@ def userregister() :
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def forgot_password():
     client = MongoClient(MONGO_URI)
-    db = client["yaallo"]
+    db = client["yaallO"]
     collection = db["users"]
     req = request.get_json()
     email = req['email']
@@ -173,7 +173,7 @@ def forgot_password():
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def otp_verify():
     client = MongoClient(MONGO_URI)
-    db = client["yaallo"]
+    db = client["yaallO"]
     collection = db["users"]
     req = request.get_json()
     print(req)
@@ -194,7 +194,7 @@ def otp_verify():
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def reset_password():
     client = MongoClient(MONGO_URI)
-    db = client["yaallo"]
+    db = client["yaallO"]
     collection = db["users"]
     req = request.get_json()
     email = req["email"]
