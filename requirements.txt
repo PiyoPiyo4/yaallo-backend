@@ -28,6 +28,7 @@ pymongo==4.6.2
 PyMySQL==1.1.0
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
 python-http-client==3.3.7
 requests==2.31.0
 requests-file==2.0.0
