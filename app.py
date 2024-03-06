@@ -11,8 +11,8 @@ from token_config import *
 from reset_password import *
 
 # Replace with your actual MongoDB connection details
-# MONGO_URI = "mongodb+srv://dev:otUvobpvZlBBlNKm@cluster0.xumgfs7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-MONGO_URI = os.environ.get('MONGODB_URI')
+MONGO_URI = "mongodb+srv://dev:otUvobpvZlBBlNKm@cluster0.xumgfs7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# MONGO_URI = os.environ.get('MONGODB_URI')
 
 
 # def defaultHandler(err):
@@ -68,7 +68,25 @@ def login():
 
     # Successful login
     token = generate_token(email, found_user['type'])
+    collection.update_one({'_id': found_user['_id']}, {'$set': {'token': token}}) 
     return jsonify({ 'token': token, 'acc_type': found_user['type']})
+
+@app.route('/logout', methods=['POST'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+def logout():
+    client = MongoClient(MONGO_URI)
+    db = client["yaallO"]
+    collection = db["users"]
+    try:
+        # Extract username/email and password from request body
+        token = request.headers.get('token')
+    except KeyError:
+        return jsonify({ 'status': 400,
+                "body": {"message": "Missing token"}})
+    filter = {'token' : token}
+    collection.update_one(filter, {"$unset": {"token": 1}})
+    # Successful login
+    return jsonify('Logout Success')
 
 @app.route('/brand-signup', methods=['POST'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
@@ -90,15 +108,15 @@ def brandregister() :
     salt = bcrypt.gensalt(10)
     bytespass = password.encode('utf-8')
     hashPass = str(bcrypt.hashpw(bytespass, salt))
+    token = generate_token(email, type)
     new = {'type': type,
            'brandName': brandName,
            'email': email,
            'password': hashPass[2:-1],
            'createdAt': createdAt,
-           'updatedAt': updatedAt}
-    # print(new)
+           'updatedAt': updatedAt,
+           'token': token}
     collection.insert_one(new)
-    token = generate_token(email, new['type'])
     return jsonify({ 'token': token, 'acc_type': type})
     # return '1'
 
@@ -124,16 +142,17 @@ def userregister() :
     salt = bcrypt.gensalt(10)
     bytespass = password.encode('utf-8')
     hashPass = str(bcrypt.hashpw(bytespass, salt))
+    token = generate_token(email, type)
     new = {'type': type,
            'firstName': firstName,
            'lastName': lastName,
            'email': email,
            'password': hashPass[2:-1],
            'createdAt': createdAt,
-           'updatedAt': updatedAt}
+           'updatedAt': updatedAt,
+           'token': token}
     # print(new)
     collection.insert_one(new)
-    token = generate_token(email, new['type'])
     return jsonify({ 'token': token, 'acc_type': type})
     # return '1'
 
@@ -224,7 +243,7 @@ def get_posts() :
     req = request.get_json()
     page_size = req["pageSize"]  # Default page size
     page_number = req["pageNumber"] # Default page number
-    print(page_number)
+    # print(page_number)
         # Skip documents based on page number and page size
     skip = (page_number - 1) * page_size
 
